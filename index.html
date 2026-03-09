@@ -1,543 +1,1053 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.3">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>PW Expense Tracker</title>
+
+  <style>
+
+    * { box-sizing: border-box; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+
+      margin: 0;
+
+      font-family: Arial, Helvetica, sans-serif;
+
+      background: #eef2f7;
+
+      color: #111827;
+
+    }
+
+    .phone-shell {
+
+      max-width: 430px;
+
+      margin: 0 auto;
+
+      min-height: 100vh;
+
+      background: #f8fafc;
+
+      box-shadow: 0 0 0 1px rgba(0,0,0,.04);
+
+    }
+
+    .topbar {
+
+      position: sticky;
+
+      top: 0;
+
+      z-index: 20;
+
+      background: rgba(248,250,252,.92);
+
+      backdrop-filter: blur(10px);
+
+      border-bottom: 1px solid #e5e7eb;
+
+      padding: 14px 16px 12px;
+
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 { font-size: 24px; }
+
+    h2 { font-size: 18px; }
+
+    .muted { color: #6b7280; }
+
+    .content {
+
+      padding: 14px;
+
+      display: grid;
+
+      gap: 14px;
+
+    }
+
+    .card {
+
+      background: white;
+
+      border-radius: 18px;
+
+      border: 1px solid #e5e7eb;
+
+      box-shadow: 0 6px 18px rgba(0,0,0,.05);
+
+      overflow: hidden;
+
+    }
+
+    .card-body { padding: 16px; }
+
+    .stack { display: grid; gap: 12px; }
+
+    label {
+
+      display: block;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      margin-bottom: 6px;
+
+      color: #374151;
+
+    }
+
+    input, select, textarea, button {
+
+      font: inherit;
+
+    }
+
+    input, select, textarea {
+
+      width: 100%;
+
+      padding: 13px 14px;
+
+      border: 1px solid #d1d5db;
+
+      border-radius: 14px;
+
+      background: white;
+
+      min-height: 48px;
+
+      font-size: 16px;
+
+    }
+
+    textarea {
+
+      min-height: 96px;
+
+      resize: vertical;
+
+    }
+
+    .row-2 {
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+
+    }
+
+    .btn-row {
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+
+      margin-top: 12px;
+
+    }
+
+    button {
+
+      border: 0;
+
+      border-radius: 14px;
+
+      padding: 13px 16px;
+
+      cursor: pointer;
+
+      font-weight: 700;
+
+      min-height: 48px;
+
+      touch-action: manipulation;
+
+      font-size: 15px;
+
+    }
+
+    .btn-primary {
+
+      background: #111827;
+
+      color: white;
+
+      width: 100%;
+
+    }
+
+    .btn-secondary {
+
+      background: #dbeafe;
+
+      color: #1e3a8a;
+
+    }
+
+    .btn-outline {
+
+      background: white;
+
+      color: #111827;
+
+      border: 1px solid #d1d5db;
+
+    }
+
+    .hero {
+
+      display: grid;
+
+      gap: 4px;
+
+    }
+
+    .hero-sub {
+
+      font-size: 14px;
+
+    }
+
+    .total-pill {
+
+      margin-top: 12px;
+
+      display: inline-block;
+
+      background: #111827;
+
+      color: white;
+
+      border-radius: 999px;
+
+      padding: 10px 14px;
+
+      font-weight: 700;
+
+      font-size: 15px;
+
+    }
+
+    .summary-boxes {
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+
+      margin-top: 12px;
+
+    }
+
+    .mini {
+
+      border: 1px solid #e5e7eb;
+
+      border-radius: 14px;
+
+      padding: 12px;
+
+      background: #f9fafb;
+
+    }
+
+    .filters {
+
+      display: grid;
+
+      gap: 10px;
+
+    }
+
+    .section-head {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin-bottom: 12px;
+
+    }
+
+    .expense-list {
+
+      display: grid;
+
+      gap: 10px;
+
+    }
+
+    .expense-item {
+
+      padding: 14px;
+
+      border: 1px solid #eceff3;
+
+      border-radius: 16px;
+
+      background: #fff;
+
+      display: grid;
+
+      gap: 10px;
+
+    }
+
+    .expense-top {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      align-items: start;
+
+    }
+
+    .expense-title {
+
+      font-weight: 700;
+
+      font-size: 15px;
+
+      word-break: break-word;
+
+    }
+
+    .expense-price {
+
+      font-weight: 800;
+
+      white-space: nowrap;
+
+    }
+
+    .expense-meta {
+
+      font-size: 13px;
+
+      color: #6b7280;
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 6px;
+
+      line-height: 1.4;
+
+    }
+
+    .delete-btn {
+
+      background: #fee2e2;
+
+      color: #991b1b;
+
+      width: 100%;
+
+    }
+
+    .empty {
+
+      padding: 18px;
+
+      text-align: center;
+
+      color: #6b7280;
+
+      border: 1px dashed #d1d5db;
+
+      border-radius: 14px;
+
+      background: #fff;
+
+    }
+
+    .foot {
+
+      padding: 2px 2px 18px;
+
+      font-size: 12px;
+
+      color: #6b7280;
+
+      text-align: center;
+
+    }
+
+    @media (max-width: 360px) {
+
+      .row-2, .btn-row, .summary-boxes {
+
+        grid-template-columns: 1fr;
+
+      }
+
+      h1 { font-size: 22px; }
+
+    }
+
   </style>
+
 </head>
+
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;PW Expense Tracker&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>* { box-sizing: border-box; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>html { -webkit-text-size-adjust: 100%; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-family: Arial, Helvetica, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #eef2f7;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #111827;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.phone-shell {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>max-width: 430px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>min-height: 100vh;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #f8fafc;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 0 0 1px rgba(0,0,0,.04);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.topbar {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>position: sticky;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>top: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>z-index: 20;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(248,250,252,.92);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>backdrop-filter: blur(10px);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-bottom: 1px solid #e5e7eb;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 14px 16px 12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>h1, h2, h3, p { margin: 0; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>h1 { font-size: 24px; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>h2 { font-size: 18px; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.muted { color: #6b7280; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.content {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.card {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 18px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #e5e7eb;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 6px 18px rgba(0,0,0,.05);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.card-body { padding: 16px; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.stack { display: grid; gap: 12px; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>label {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: block;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 13px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 6px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #374151;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>input, select, textarea, button {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font: inherit;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>input, select, textarea {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 13px 14px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #d1d5db;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>min-height: 48px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>textarea {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>min-height: 96px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>resize: vertical;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.row-2 {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: 1fr 1fr;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.btn-row {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: 1fr 1fr;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>button {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 13px 16px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>min-height: 48px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>touch-action: manipulation;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.btn-primary {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #111827;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.btn-secondary {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #dbeafe;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #1e3a8a;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.btn-outline {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #111827;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #d1d5db;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.hero {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.hero-sub {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.total-pill {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: inline-block;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #111827;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 999px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 10px 14px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.summary-boxes {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: 1fr 1fr;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.mini {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #e5e7eb;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #f9fafb;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.filters {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.section-head {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.expense-list {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.expense-item {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #eceff3;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.expense-top {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>align-items: start;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.expense-title {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>word-break: break-word;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.expense-price {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 800;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>white-space: nowrap;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.expense-meta {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 13px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #6b7280;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex-wrap: wrap;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 6px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>line-height: 1.4;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.delete-btn {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #fee2e2;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #991b1b;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.empty {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 18px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #6b7280;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px dashed #d1d5db;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.foot {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 2px 2px 18px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #6b7280;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>@media (max-width: 360px) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>.row-2, .btn-row, .summary-boxes {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>grid-template-columns: 1fr;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>h1 { font-size: 22px; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="phone-shell"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="topbar"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="hero"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1&gt;Expense Tracker&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="muted hero-sub"&gt;Simple phone-friendly tracker for your pressure washing business&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="total-pill"&gt;Total: &lt;span id="totalBox"&gt;$0.00&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="btn-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn-secondary" id="exportBtn"&gt;Export CSV&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn-outline" id="clearBtn"&gt;Clear All&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="section-head"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Add Expense&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;form id="expenseForm" class="stack"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;label for="date"&gt;Date&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="date" id="date" required /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;label for="vendor"&gt;What did you buy?&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="text" id="vendor" placeholder="Gas station, Facebook Ads, Home Depot" required /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="row-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="category"&gt;Category&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;select id="category"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;option&gt;Gas&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;option&gt;Chemicals&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;option&gt;Equipment&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;option&gt;Repairs&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;option&gt;Marketing&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;option&gt;Insurance&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;option&gt;Meals&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;option&gt;Other&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/select&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="amount"&gt;Amount&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="number" id="amount" step="0.01" min="0.01" placeholder="0.00" required /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;label for="notes"&gt;Notes&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;textarea id="notes" placeholder="Job address, receipt info, or reason"&gt;&lt;/textarea&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button type="submit" class="btn-primary"&gt;Add Expense&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/form&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="section-head"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Summary&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="summary-boxes" id="summaryBoxes"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="section-head"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Filters&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="filters"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;label for="monthFilter"&gt;Month&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;select id="monthFilter"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="all"&gt;All&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;/select&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;label for="categoryFilter"&gt;Category&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;select id="categoryFilter"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="all"&gt;All&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;option&gt;Gas&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;option&gt;Chemicals&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;option&gt;Equipment&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;option&gt;Repairs&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;option&gt;Marketing&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;option&gt;Insurance&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;option&gt;Meals&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;option&gt;Other&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;/select&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;label for="search"&gt;Search&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="text" id="search" placeholder="Gas, ads, Home Depot" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="section-head"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;h2&gt;Expenses&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;p class="muted"&gt;&lt;span id="countBox"&gt;0&lt;/span&gt; items&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="expense-list" id="expenseList"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="foot"&gt;Saved in your browser on this device.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const LS_KEY = "pw_expenses_v1";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const dateEl = document.getElementById("date");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const vendorEl = document.getElementById("vendor");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const categoryEl = document.getElementById("category");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const amountEl = document.getElementById("amount");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const notesEl = document.getElementById("notes");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const formEl = document.getElementById("expenseForm");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const monthFilterEl = document.getElementById("monthFilter");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const categoryFilterEl = document.getElementById("categoryFilter");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const searchEl = document.getElementById("search");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const totalBoxEl = document.getElementById("totalBox");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const summaryBoxesEl = document.getElementById("summaryBoxes");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const expenseListEl = document.getElementById("expenseList");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const countBoxEl = document.getElementById("countBox");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const exportBtn = document.getElementById("exportBtn");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const clearBtn = document.getElementById("clearBtn");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>let items = JSON.parse(localStorage.getItem(LS_KEY) || "[]");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function todayISO() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return new Date().toISOString().slice(0, 10);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function fmtUSD(n) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return Number(n || 0).toLocaleString(undefined, { style: "currency", currency: "USD" });</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function monthKey(date) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return (date || "").slice(0, 7);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function save() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>localStorage.setItem(LS_KEY, JSON.stringify(items));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function getFiltered() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const month = monthFilterEl.value;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const cat = categoryFilterEl.value;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const q = searchEl.value.trim().toLowerCase();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>return items</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.filter(i =&gt; month === "all" || monthKey(i.date) === month)</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.filter(i =&gt; cat === "all" || i.category === cat)</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.filter(i =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>if (!q) return true;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>return `${i.vendor} ${i.category} ${i.notes} ${i.date}`.toLowerCase().includes(q);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>})</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.sort((a, b) =&gt; b.date.localeCompare(a.date));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function refreshMonths() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const current = monthFilterEl.value;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const months = [...new Set(items.map(i =&gt; monthKey(i.date)).filter(Boolean))].sort().reverse();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>monthFilterEl.innerHTML = '&lt;option value="all"&gt;All&lt;/option&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>months.forEach(m =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const opt = document.createElement("option");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>opt.value = m;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>opt.textContent = m;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>monthFilterEl.appendChild(opt);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p1"><span class="Apple-converted-space">      </span>monthFilterEl.value = months.includes(current) ? current : "all";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function render() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>refreshMonths();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const filtered = getFiltered();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const total = filtered.reduce((sum, i) =&gt; sum + Number(i.amount || 0), 0);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>totalBoxEl.textContent = fmtUSD(total);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>countBoxEl.textContent = filtered.length;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const byCat = {};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>filtered.forEach(i =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>byCat[i.category] = (byCat[i.category] || 0) + Number(i.amount || 0);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>summaryBoxesEl.innerHTML = "";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const topCats = Object.keys(byCat).sort((a, b) =&gt; byCat[b] - byCat[a]).slice(0, 6);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (topCats.length === 0) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>summaryBoxesEl.innerHTML = '&lt;div class="mini muted"&gt;No expenses yet.&lt;/div&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>topCats.forEach(cat =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>const div = document.createElement("div");</p>
-<p class="p1"><span class="Apple-converted-space">          </span>div.className = "mini";</p>
-<p class="p1"><span class="Apple-converted-space">          </span>div.innerHTML = `&lt;strong&gt;${cat}&lt;/strong&gt;&lt;div class="muted"&gt;${fmtUSD(byCat[cat])}&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>summaryBoxesEl.appendChild(div);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>expenseListEl.innerHTML = "";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (filtered.length === 0) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>expenseListEl.innerHTML = '&lt;div class="empty"&gt;No matching expenses.&lt;/div&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>filtered.forEach(item =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const row = document.createElement("div");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>row.className = "expense-item";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>row.innerHTML = `</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="expense-main"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="expense-top"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="expense-title"&gt;${escapeHtml(item.vendor)}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;div&gt;&lt;strong&gt;${fmtUSD(item.amount)}&lt;/strong&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="expense-meta"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;span&gt;${escapeHtml(item.date)}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;span&gt;•&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;span&gt;${escapeHtml(item.category)}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>${item.notes ? `&lt;span&gt;•&lt;/span&gt;&lt;span&gt;${escapeHtml(item.notes)}&lt;/span&gt;` : ""}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="delete-btn" data-id="${item.id}"&gt;Delete&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>`;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>expenseListEl.appendChild(row);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function escapeHtml(str) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return String(str || "")</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.replaceAll("&amp;", "&amp;amp;")</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.replaceAll("&lt;", "&amp;lt;")</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.replaceAll("&gt;", "&amp;gt;")</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.replaceAll('"', "&amp;quot;")</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.replaceAll("'", "&amp;#039;");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function exportCSV() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const filtered = getFiltered();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const rows = [</p>
-<p class="p1"><span class="Apple-converted-space">        </span>["Date", "Vendor", "Category", "Amount", "Notes"],</p>
-<p class="p1"><span class="Apple-converted-space">        </span>...filtered.map(i =&gt; [i.date, i.vendor, i.category, i.amount, i.notes || ""])</p>
-<p class="p1"><span class="Apple-converted-space">      </span>];</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const csv = rows.map(r =&gt; r.map(v =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const s = String(v ?? "");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return /[\n\r,"]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}).join(",")).join("\n");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const url = URL.createObjectURL(blob);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const a = document.createElement("a");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>a.href = url;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>a.download = "expenses.csv";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>a.click();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>URL.revokeObjectURL(url);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>formEl.addEventListener("submit", function (e) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>e.preventDefault();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const date = dateEl.value;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const vendor = vendorEl.value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const category = categoryEl.value;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const amount = Number(amountEl.value);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const notes = notesEl.value.trim();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (!date || !vendor || !Number.isFinite(amount) || amount &lt;= 0) return;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>items.unshift({</p>
-<p class="p1"><span class="Apple-converted-space">        </span>id: String(Date.now() + Math.random()),</p>
-<p class="p1"><span class="Apple-converted-space">        </span>date,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>vendor,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>category,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>amount: Math.round(amount * 100) / 100,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>notes</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>save();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>vendorEl.value = "";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>amountEl.value = "";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>notesEl.value = "";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>render();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>expenseListEl.addEventListener("click", function (e) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (!e.target.matches(".delete-btn")) return;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const id = e.target.getAttribute("data-id");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>items = items.filter(i =&gt; i.id !== id);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>save();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>render();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>[monthFilterEl, categoryFilterEl, searchEl].forEach(el =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>el.addEventListener("input", render);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>el.addEventListener("change", render);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>exportBtn.addEventListener("click", exportCSV);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>clearBtn.addEventListener("click", function () {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (!confirm("Clear all saved expenses?")) return;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>items = [];</p>
-<p class="p1"><span class="Apple-converted-space">      </span>save();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>render();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>dateEl.value = todayISO();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>render();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+  <div class="phone-shell">
+
+    <div class="topbar">
+
+      <div class="hero">
+
+        <h1>Expense Tracker</h1>
+
+        <p class="muted hero-sub">Simple phone-friendly tracker for your pressure washing business</p>
+
+        <div class="total-pill">Total: <span id="totalBox">$0.00</span></div>
+
+      </div>
+
+      <div class="btn-row">
+
+        <button class="btn-secondary" id="exportBtn">Export CSV</button>
+
+        <button class="btn-outline" id="clearBtn">Clear All</button>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="content">
+
+      <div class="card">
+
+        <div class="card-body">
+
+          <div class="section-head">
+
+            <h2>Add Expense</h2>
+
+          </div>
+
+          <form id="expenseForm" class="stack">
+
+            <div>
+
+              <label for="date">Date</label>
+
+              <input type="date" id="date" required />
+
+            </div>
+
+
+
+            <div>
+
+              <label for="vendor">What did you buy?</label>
+
+              <input type="text" id="vendor" placeholder="Gas station, Facebook Ads, Home Depot" required />
+
+            </div>
+
+
+
+            <div class="row-2">
+
+              <div>
+
+                <label for="category">Category</label>
+
+                <select id="category">
+
+                  <option>Gas</option>
+
+                  <option>Chemicals</option>
+
+                  <option>Equipment</option>
+
+                  <option>Repairs</option>
+
+                  <option>Marketing</option>
+
+                  <option>Insurance</option>
+
+                  <option>Meals</option>
+
+                  <option>Other</option>
+
+                </select>
+
+              </div>
+
+              <div>
+
+                <label for="amount">Amount</label>
+
+                <input type="number" id="amount" step="0.01" min="0.01" placeholder="0.00" required />
+
+              </div>
+
+            </div>
+
+
+
+            <div>
+
+              <label for="notes">Notes</label>
+
+              <textarea id="notes" placeholder="Job address, receipt info, or reason"></textarea>
+
+            </div>
+
+
+
+            <button type="submit" class="btn-primary">Add Expense</button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="card">
+
+        <div class="card-body">
+
+          <div class="section-head">
+
+            <h2>Summary</h2>
+
+          </div>
+
+          <div class="summary-boxes" id="summaryBoxes"></div>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="card">
+
+        <div class="card-body">
+
+          <div class="section-head">
+
+            <h2>Filters</h2>
+
+          </div>
+
+          <div class="filters">
+
+            <div>
+
+              <label for="monthFilter">Month</label>
+
+              <select id="monthFilter">
+
+                <option value="all">All</option>
+
+              </select>
+
+            </div>
+
+            <div>
+
+              <label for="categoryFilter">Category</label>
+
+              <select id="categoryFilter">
+
+                <option value="all">All</option>
+
+                <option>Gas</option>
+
+                <option>Chemicals</option>
+
+                <option>Equipment</option>
+
+                <option>Repairs</option>
+
+                <option>Marketing</option>
+
+                <option>Insurance</option>
+
+                <option>Meals</option>
+
+                <option>Other</option>
+
+              </select>
+
+            </div>
+
+            <div>
+
+              <label for="search">Search</label>
+
+              <input type="text" id="search" placeholder="Gas, ads, Home Depot" />
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="card">
+
+        <div class="card-body">
+
+          <div class="section-head">
+
+            <div>
+
+              <h2>Expenses</h2>
+
+              <p class="muted"><span id="countBox">0</span> items</p>
+
+            </div>
+
+          </div>
+
+          <div class="expense-list" id="expenseList"></div>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="foot">Saved in your browser on this device.</div>
+
+    </div>
+
+  </div>
+
+
+
+  <script>
+
+    const LS_KEY = "pw_expenses_v1";
+
+    const dateEl = document.getElementById("date");
+
+    const vendorEl = document.getElementById("vendor");
+
+    const categoryEl = document.getElementById("category");
+
+    const amountEl = document.getElementById("amount");
+
+    const notesEl = document.getElementById("notes");
+
+    const formEl = document.getElementById("expenseForm");
+
+    const monthFilterEl = document.getElementById("monthFilter");
+
+    const categoryFilterEl = document.getElementById("categoryFilter");
+
+    const searchEl = document.getElementById("search");
+
+    const totalBoxEl = document.getElementById("totalBox");
+
+    const summaryBoxesEl = document.getElementById("summaryBoxes");
+
+    const expenseListEl = document.getElementById("expenseList");
+
+    const countBoxEl = document.getElementById("countBox");
+
+    const exportBtn = document.getElementById("exportBtn");
+
+    const clearBtn = document.getElementById("clearBtn");
+
+
+
+    let items = JSON.parse(localStorage.getItem(LS_KEY) || "[]");
+
+
+
+    function todayISO() {
+
+      return new Date().toISOString().slice(0, 10);
+
+    }
+
+
+
+    function fmtUSD(n) {
+
+      return Number(n || 0).toLocaleString(undefined, { style: "currency", currency: "USD" });
+
+    }
+
+
+
+    function monthKey(date) {
+
+      return (date || "").slice(0, 7);
+
+    }
+
+
+
+    function save() {
+
+      localStorage.setItem(LS_KEY, JSON.stringify(items));
+
+    }
+
+
+
+    function getFiltered() {
+
+      const month = monthFilterEl.value;
+
+      const cat = categoryFilterEl.value;
+
+      const q = searchEl.value.trim().toLowerCase();
+
+
+
+      return items
+
+        .filter(i => month === "all" || monthKey(i.date) === month)
+
+        .filter(i => cat === "all" || i.category === cat)
+
+        .filter(i => {
+
+          if (!q) return true;
+
+          return `${i.vendor} ${i.category} ${i.notes} ${i.date}`.toLowerCase().includes(q);
+
+        })
+
+        .sort((a, b) => b.date.localeCompare(a.date));
+
+    }
+
+
+
+    function refreshMonths() {
+
+      const current = monthFilterEl.value;
+
+      const months = [...new Set(items.map(i => monthKey(i.date)).filter(Boolean))].sort().reverse();
+
+      monthFilterEl.innerHTML = '<option value="all">All</option>';
+
+      months.forEach(m => {
+
+        const opt = document.createElement("option");
+
+        opt.value = m;
+
+        opt.textContent = m;
+
+        monthFilterEl.appendChild(opt);
+
+      });
+
+      monthFilterEl.value = months.includes(current) ? current : "all";
+
+    }
+
+
+
+    function render() {
+
+      refreshMonths();
+
+      const filtered = getFiltered();
+
+      const total = filtered.reduce((sum, i) => sum + Number(i.amount || 0), 0);
+
+      totalBoxEl.textContent = fmtUSD(total);
+
+      countBoxEl.textContent = filtered.length;
+
+
+
+      const byCat = {};
+
+      filtered.forEach(i => {
+
+        byCat[i.category] = (byCat[i.category] || 0) + Number(i.amount || 0);
+
+      });
+
+
+
+      summaryBoxesEl.innerHTML = "";
+
+      const topCats = Object.keys(byCat).sort((a, b) => byCat[b] - byCat[a]).slice(0, 6);
+
+      if (topCats.length === 0) {
+
+        summaryBoxesEl.innerHTML = '<div class="mini muted">No expenses yet.</div>';
+
+      } else {
+
+        topCats.forEach(cat => {
+
+          const div = document.createElement("div");
+
+          div.className = "mini";
+
+          div.innerHTML = `<strong>${cat}</strong><div class="muted">${fmtUSD(byCat[cat])}</div>`;
+
+          summaryBoxesEl.appendChild(div);
+
+        });
+
+      }
+
+
+
+      expenseListEl.innerHTML = "";
+
+      if (filtered.length === 0) {
+
+        expenseListEl.innerHTML = '<div class="empty">No matching expenses.</div>';
+
+        return;
+
+      }
+
+
+
+      filtered.forEach(item => {
+
+        const row = document.createElement("div");
+
+        row.className = "expense-item";
+
+        row.innerHTML = `
+
+          <div class="expense-main">
+
+            <div class="expense-top">
+
+              <div class="expense-title">${escapeHtml(item.vendor)}</div>
+
+              <div><strong>${fmtUSD(item.amount)}</strong></div>
+
+            </div>
+
+            <div class="expense-meta">
+
+              <span>${escapeHtml(item.date)}</span>
+
+              <span>•</span>
+
+              <span>${escapeHtml(item.category)}</span>
+
+              ${item.notes ? `<span>•</span><span>${escapeHtml(item.notes)}</span>` : ""}
+
+            </div>
+
+          </div>
+
+          <button class="delete-btn" data-id="${item.id}">Delete</button>
+
+        `;
+
+        expenseListEl.appendChild(row);
+
+      });
+
+    }
+
+
+
+    function escapeHtml(str) {
+
+      return String(str || "")
+
+        .replaceAll("&", "&amp;")
+
+        .replaceAll("<", "&lt;")
+
+        .replaceAll(">", "&gt;")
+
+        .replaceAll('"', "&quot;")
+
+        .replaceAll("'", "&#039;");
+
+    }
+
+
+
+    function exportCSV() {
+
+      const filtered = getFiltered();
+
+      const rows = [
+
+        ["Date", "Vendor", "Category", "Amount", "Notes"],
+
+        ...filtered.map(i => [i.date, i.vendor, i.category, i.amount, i.notes || ""])
+
+      ];
+
+      const csv = rows.map(r => r.map(v => {
+
+        const s = String(v ?? "");
+
+        return /[\n\r,"]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+
+      }).join(",")).join("\n");
+
+
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+
+      a.href = url;
+
+      a.download = "expenses.csv";
+
+      a.click();
+
+      URL.revokeObjectURL(url);
+
+    }
+
+
+
+    formEl.addEventListener("submit", function (e) {
+
+      e.preventDefault();
+
+      const date = dateEl.value;
+
+      const vendor = vendorEl.value.trim();
+
+      const category = categoryEl.value;
+
+      const amount = Number(amountEl.value);
+
+      const notes = notesEl.value.trim();
+
+
+
+      if (!date || !vendor || !Number.isFinite(amount) || amount <= 0) return;
+
+
+
+      items.unshift({
+
+        id: String(Date.now() + Math.random()),
+
+        date,
+
+        vendor,
+
+        category,
+
+        amount: Math.round(amount * 100) / 100,
+
+        notes
+
+      });
+
+
+
+      save();
+
+      vendorEl.value = "";
+
+      amountEl.value = "";
+
+      notesEl.value = "";
+
+      render();
+
+    });
+
+
+
+    expenseListEl.addEventListener("click", function (e) {
+
+      if (!e.target.matches(".delete-btn")) return;
+
+      const id = e.target.getAttribute("data-id");
+
+      items = items.filter(i => i.id !== id);
+
+      save();
+
+      render();
+
+    });
+
+
+
+    [monthFilterEl, categoryFilterEl, searchEl].forEach(el => {
+
+      el.addEventListener("input", render);
+
+      el.addEventListener("change", render);
+
+    });
+
+
+
+    exportBtn.addEventListener("click", exportCSV);
+
+    clearBtn.addEventListener("click", function () {
+
+      if (!confirm("Clear all saved expenses?")) return;
+
+      items = [];
+
+      save();
+
+      render();
+
+    });
+
+
+
+    dateEl.value = todayISO();
+
+    render();
+
+  </script>
+
 </body>
+
 </html>
